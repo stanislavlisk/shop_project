@@ -10,7 +10,7 @@ from .models import UserProfile
 class UserProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['nuotrauka']
+        fields = ['photo']
 
 class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField()

@@ -3,7 +3,7 @@
 {% block content %}
 <div class="content-section">
     <div class="mb-3 d-inline-flex flex-sm-column justify-content-center align-items-center">
-        <img class="rounded-circle p-2 " src="{{ user.profilis.nuotrauka.url }}">
+        <img class="rounded-circle p-2 " src="{{ user.userprofile.photo.url }}">
         <p class="m-1">{{ user.username }}</p>
         <p class="m-1">{{ user.email }}</p>
         <a class="m-1" href="{% url 'logout' %}">Atsijungti</a>
