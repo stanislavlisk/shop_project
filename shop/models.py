@@ -21,8 +21,6 @@ class UserProfile(models.Model):
         img_thumb = generate_thumbnail(img, thumb_size, )
         img_thumb.save(self.photo.path)
 
-    
-
 
 class ItemCategory(models.Model):
     item_category = models.CharField("Item category", max_length=30, help_text="shop item category name")
