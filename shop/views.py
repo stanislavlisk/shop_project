@@ -10,13 +10,15 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from .my_utils import password_check
 
+from .forms import UserProfileUpdateForm, UserUpdateForm
+from django.contrib.auth.decorators import login_required
+
 
 def index(request):
     paslaugos = ['vienas', 'du', 'trys']
     data = {
         'paslaugos_c': paslaugos
     }
-
     return render(request, 'index.html', context=data)
 
 
@@ -54,3 +56,24 @@ def register(request):
             return redirect('register_n')
 
     return render(request, "registration/register.html")
+
+@login_required
+def profilis(request):
+    if request.method == "POST":
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = UserProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f"Profilis atnaujintas")
+            return redirect('user_profile_n')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = UserProfileUpdateForm(instance=request.user.userprofile)
+
+    data = {
+        'u_form_cntx': u_form,
+        'p_form_cntx': p_form,
+    }
+
+    return render(request, "user_profile.html", context=data)

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="content-section">
+    <div class="mb-3 d-inline-flex flex-sm-column justify-content-center align-items-center">
+        <img class="rounded-circle p-2 " src="{{ user.profilis.nuotrauka.url }}">
+        <p class="m-1">{{ user.username }}</p>
+        <p class="m-1">{{ user.email }}</p>
+        <a class="m-1" href="{% url 'logout' %}">Atsijungti</a>
+    </div>
+</div>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <fieldset class="form-group">
+        <legend class="border-bottom mb-4">Profilio info</legend>
+        {{ u_form_cntx | crispy }}
+        {{ p_form_cntx | crispy }}
+    </fieldset>
+    <div class="form-group">
+        <button class="btn btn-outline-info" type="submit">Atnaujinti</button>
+    </div>
+</form>
+</div>
+
+{% endblock %}
