@@ -9,9 +9,11 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from .my_utils import password_check
-
-from .forms import UserProfileUpdateForm, UserUpdateForm
 from django.contrib.auth.decorators import login_required
+
+from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm
+from .models import ItemCategory
+
 
 
 def index(request):
@@ -77,3 +79,12 @@ def profilis(request):
     }
 
     return render(request, "user_profile.html", context=data)
+
+class ItemCategoryCreateView(LoginRequiredMixin, generic.CreateView):
+    model = ItemCategory
+    success_url = "/"
+    template_name = "add_category.html"
+    form_class = ItemCategoryCreateForm
+
+
+

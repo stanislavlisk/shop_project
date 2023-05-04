@@ -27,6 +27,7 @@ class ItemCategory(models.Model):
 
 class ItemModel(models.Model):
     item_model_name = models.CharField("Item model name", max_length=30, help_text="shop item category name")
+    category_id = models.ManyToManyField("ItemCategory", help_text="Item category")
 
 
 

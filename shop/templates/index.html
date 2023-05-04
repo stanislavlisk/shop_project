@@ -3,12 +3,14 @@
 
 
 
-<div class="container">
-    <div class="row row-cols-4">
-        {% for p_obj in paslaugos_c  %}
-        <div class="col p-2 bg-light border">{{ p_obj }}</div>
-        {% endfor %}
-    </div>
-</div>
+
+<p>Group test: {{ user }} - {{ user.groups.all }}</p>
+{% for group in user.groups.all %}
+    {% if group.name == 'shop_users' %}
+    <p>priklauso grupei {{ group.name }} </p>
+    <a href="{% url 'administrator_n' %}">administruoti</a>
+    {% endif %}
+{% endfor %}
+
 
 {% endblock %}
