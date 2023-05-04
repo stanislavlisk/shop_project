@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
+from .my_utils import password_check
 
 
 def index(request):
@@ -32,18 +33,22 @@ def register(request):
         password2 = request.POST['password2']
         # ar sutampa slaptazodziai?
         if password == password2:
-            if User.objects.filter(username=username).exists():
-                messages.error(request, "Username %s ir already exists" % username)
-                return redirect('register_n')
-            else:
-                # ar nera sistemoj tokio pat vartotojo email
-                if User.objects.filter(email=email).exists():
-                    messages.error(request, f"Vartotojas su email '{email}' jau egzistuoja")
+            if password_check(password):
+                if User.objects.filter(username=username).exists():
+                    messages.error(request, "Username %s ir already exists" % username)
                     return redirect('register_n')
                 else:
-                    User.objects.create_user(username=username, email=email, password=password)
-                    messages.info(request, f"Vartotojas {username} užregistruotas !")
-                    return redirect('login')
+                    # ar nera sistemoj tokio pat vartotojo email
+                    if User.objects.filter(email=email).exists():
+                        messages.error(request, f"Vartotojas su email '{email}' jau egzistuoja")
+                        return redirect('register_n')
+                    else:
+                        User.objects.create_user(username=username, email=email, password=password)
+                        messages.info(request, f"Vartotojas {username} užregistruotas !")
+                        return redirect('login')
+            else:
+                messages.error(request, f"Slaptažodis turi turėti bent vieną skaičių, simbolį ir didžiąją raidę")
+                return redirect('login')
         else:
             messages.error(request, f"Slaptažodžiai turi sutapti !")
             return redirect('register_n')

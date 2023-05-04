@@ -1,0 +1,18 @@
+<div class="class="row row-cols-4">
+    {% if user.is_authenticated %}
+    <li class="nav-item">
+        <a class="nav-link" href="">{{ user.get_username }}</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'logout' %}?next=/">Logout</a>
+    </li>
+    {% else %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'register_n' %}">Register</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'login' %}?next={{ request.path }}">Login</a>
+    </li>
+    {% endif %}
+</div>
+
