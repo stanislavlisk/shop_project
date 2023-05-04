@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<div class="container">
+    <div class="row row-cols-4">
+        {% for p_obj in paslaugos_c  %}
+        <div class="col p-2 bg-light border">{{ p_obj }}</div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
