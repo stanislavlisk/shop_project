@@ -23,7 +23,12 @@ class ItemModelCreateForm(forms.ModelForm):
         fields = ['item_model_name', 'category_id', 'price']
         widgets = {'form_user': forms.HiddenInput(),}
 
-
+####
+class ItemCreateForm(forms.ModelForm):
+    class Meta:
+        model = Item
+        fields = ['item_model_id', 'status']
+        widgets = {'form_user': forms.HiddenInput(),}
 
 
 class UserProfileUpdateForm(forms.ModelForm):

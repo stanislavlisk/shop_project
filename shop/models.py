@@ -38,11 +38,15 @@ class ItemModel(models.Model):
         self.price = round(self.price, 2)
         super(ItemModel, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return f"{self.item_model_name}"
+
 
 
 
 class Item(models.Model):
-    item_model_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    item_model_id = models.ForeignKey(ItemModel, on_delete=models.CASCADE, null=True, blank=True)
     ITEM_STATUS = (
         ('u', 'Unavailable'),
         ('a', 'Available'),

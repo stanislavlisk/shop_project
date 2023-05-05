@@ -11,8 +11,8 @@ from django.contrib import messages
 from .my_utils import password_check
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm
-from .models import ItemCategory, ItemModel
+from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm, ItemCreateForm
+from .models import ItemCategory, ItemModel, Item
 
 
 admin_group_name = 'shop_admin'
@@ -199,7 +199,22 @@ class ItemModelDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Delet
         else:
             return False
 
+class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
+    model = Item
+    form_class = ItemCreateForm
+    success_url = "/app/administrator"
+    template_name = "add_item.html"
 
+    def form_valid(self, form):
+        form.instance.form_user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        user_groups_list = [group.name for group in self.request.user.groups.all()]
+        if admin_group_name in user_groups_list:
+            return True
+        else:
+            return False
 
 
 

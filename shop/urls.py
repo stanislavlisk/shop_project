@@ -8,9 +8,10 @@ urlpatterns = [
     path("administrator/add_category", views.ItemCategoryCreateView.as_view(), name='add_category_n'),
     path("administrator/<int:pk>/category_update", views.ItemCategoryUpdateView.as_view(), name='update_category_n'),
     path("administrator/<int:pk>/category_delete", views.ItemCategoryDeleteView.as_view(), name='delete_category_n'),
-    path("administrator/add_item", views.ItemModelCreateView.as_view(), name='add_item_model_n'),
+    path("administrator/add_item_model", views.ItemModelCreateView.as_view(), name='add_item_model_n'),
     path("administrator/<int:pk>/update_item", views.ItemModelUpdateView.as_view(), name='update_item_model_n'),
     path("administrator/<int:pk>/delete_item", views.ItemModelDeleteView.as_view(), name='delete_item_model_n'),
+    path("administrator/add_item", views.ItemCreateView.as_view(), name='add_item_n'),
 
 ]
 
