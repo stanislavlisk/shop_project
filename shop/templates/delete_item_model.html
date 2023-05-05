@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">DELETE ITEM MODEL</legend>
+            <h2>ARE YOU SURE?</h2>
+            <p> Delete item model : {{ object.item_model_name }}</p>
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outlane-danget" type="submit">DELETE</button>
+            <a href="{{ view.get_success_url }}" class="btn btn-outline-secondary">CANCEL</a>
+
+
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

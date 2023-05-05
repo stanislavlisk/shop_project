@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="d-inline-flex flex-column p-2">
+<div class="d-inline-flex flex-column p-4">
     {% for category_obj in categories_list_cntx %}
     <div class="d-flex flex-row p-2  justify-content-between">
         <div>
@@ -15,27 +15,39 @@
         </div>
     </div>
     {% endfor %}
+
+    <div class="d-inline-flex flex-row p-4">
+        <a class="btn btn-sm btn-primary btn-dark m-1" href="{% url 'add_category_n' %}">ADD CATEGORY</a>
+        <a class="btn btn-sm btn-primary btn-dark m-1" href="{% url 'add_item_model_n' %}">ADD SHOP ITEM</a>
+    </div>
+
 </div>
 
-<br>
-<a href="{% url 'add_category_n' %}">ADD CATEGORY</a>
-<a href="{% url 'add_item_model_n' %}">ADD SHOP ITEM</a>
-<br>
 
-<div class="d-inline-flex flex-column p-2">
-    {% for item_model_obj in item_models_list_cntx %}
-    <div class="d-flex flex-row p-2  justify-content-between">
-        <div>
+<div class="container">
+    <div class="row row-cols-4">
+
+        {% for item_model_obj in item_models_list_cntx %}
+        <div class="col">
             {{ item_model_obj.item_model_name }}
         </div>
-        <div>
-            {{ item_model_obj.category_id }}
-        </div>
-        <div>
+        <div class="col">
             {{ item_model_obj.price }}
         </div>
+        <div class="col d-inline-flex flex-row">
+            {% for category_obj in item_model_obj.category_id.all %}
+            <div class="m-1">{{ category_obj }}</div>
+            {% endfor %}
+        </div>
+        <div class="col">
+            <a class="btn btn-sm btn-primary btn-dark m-1" href="{% url 'update_item_model_n' item_model_obj.id %}"
+               role="button">Edit</a>
+            <a class="btn btn-sm btn-primary btn-dark m-1" href="{% url 'delete_item_model_n' item_model_obj.id %}"
+               role="button">DELETE</a>
+        </div>
+        {% endfor %}
+
     </div>
-    {% endfor %}
 </div>
 
 

@@ -153,13 +153,44 @@ class ItemCategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.De
 
 class ItemModelCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = ItemModel
+    form_class = ItemModelCreateForm
     success_url = "/app/administrator"
     template_name = "add_item_model.html"
-    form_class = ItemModelCreateForm
 
     def form_valid(self, form):
         form.instance.form_user = self.request.user
         return super().form_valid(form)
+
+    def test_func(self):
+        user_groups_list = [group.name for group in self.request.user.groups.all()]
+        if admin_group_name in user_groups_list:
+            return True
+        else:
+            return False
+
+class ItemModelUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = ItemModel
+    form_class = ItemModelCreateForm
+    success_url = "/app/administrator"
+    template_name = "add_item_model.html"
+
+
+    def form_valid(self, form):
+        form.instance.form_user = self.request.user
+        return super().form_valid(form)
+
+
+    def test_func(self):
+        user_groups_list = [group.name for group in self.request.user.groups.all()]
+        if admin_group_name in user_groups_list:
+            return True
+        else:
+            return False
+
+class ItemModelDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = ItemModel
+    success_url = "/app/administrator"
+    template_name = "delete_item_model.html"
 
     def test_func(self):
         user_groups_list = [group.name for group in self.request.user.groups.all()]

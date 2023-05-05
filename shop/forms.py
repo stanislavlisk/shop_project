@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import ModelMultipleChoiceField, CheckboxSelectMultiple
+
 from django.contrib.auth.models import User
 
 from .models import UserProfile, ItemCategory, ItemModel, Item
@@ -14,9 +14,9 @@ class ItemCategoryCreateForm(forms.ModelForm):
 
 
 class ItemModelCreateForm(forms.ModelForm):
-    category_id = ModelMultipleChoiceField(
+    category_id = forms.ModelMultipleChoiceField(
         queryset=ItemCategory.objects.all(),
-        widget=CheckboxSelectMultiple
+        widget=forms.CheckboxSelectMultiple
     )
     class Meta:
         model = ItemModel
