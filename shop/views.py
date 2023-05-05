@@ -11,8 +11,8 @@ from django.contrib import messages
 from .my_utils import password_check
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm
-from .models import ItemCategory
+from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm, ItemCategoryUpdateForm
+from .models import ItemCategory, ItemModel
 
 
 admin_group_name = 'shop_admin'
@@ -113,6 +113,45 @@ class ItemCategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Cr
             return True
         else:
             return False
+
+
+# class ItemCategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
+#     model = ItemCategory
+#     success_url = "/app/administrator"
+#     template_name = "add_item_category.html"
+#     form_class = ItemCategoryUpdateForm
+#
+#     def form_valid(self, form):
+#         form.instance.form_user = self.request.user
+#         print(f"formos naudotojas: {form.instance.form_user}")
+#         return super().form_valid(form)
+#
+#     def test_func(self):
+#         user_groups_list = [group.name for group in self.request.user.groups.all()]
+#         if admin_group_name in user_groups_list:
+#             return True
+#         else:
+#             return False
+
+
+class ItemModelCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
+    model = ItemModel
+    success_url = "/app/administrator"
+    template_name = "add_item_model.html"
+    form_class = ItemModelCreateForm
+
+    def form_valid(self, form):
+        form.instance.form_user = self.request.user
+        print(f"formos naudotojas: {form.instance.form_user}")
+        return super().form_valid(form)
+
+    def test_func(self):
+        user_groups_list = [group.name for group in self.request.user.groups.all()]
+        if admin_group_name in user_groups_list:
+            return True
+        else:
+            return False
+
 
 
 

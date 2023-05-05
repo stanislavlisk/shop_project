@@ -34,6 +34,7 @@ class ItemModel(models.Model):
     category_id = models.ManyToManyField("ItemCategory", help_text="Item category")
     price = models.FloatField("Item price", default="0.00")
 
+
 class Item(models.Model):
     item_model_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     ITEM_STATUS = (

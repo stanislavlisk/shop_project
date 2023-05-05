@@ -5,6 +5,8 @@
     {% for category_obj in categories_list_cntx %}
     {{ category_obj }}<br>
     {% endfor %}
-    <a href="{% url 'add_category_n' %}">ADD CATEGORY</a>
+    <a href="{% url 'add_category_n' %}">ADD CATEGORY</a><br>
+
+    <a href="{% url 'add_item_model_n' %}">ADD SHOP ITEM</a>
 </div>
 {% endblock %}
