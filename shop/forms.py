@@ -8,6 +8,8 @@ class ItemCategoryCreateForm(forms.ModelForm):
     class Meta:
         model = ItemCategory
         fields = ['item_category']
+        widgets = {'form_user': forms.HiddenInput(),
+                   }
 
 
 class UserProfileUpdateForm(forms.ModelForm):

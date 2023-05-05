@@ -25,9 +25,14 @@ class UserProfile(models.Model):
 class ItemCategory(models.Model):
     item_category = models.CharField("Item category", max_length=30, help_text="shop item category name")
 
+    def __str__(self):
+        return f"{self.item_category}"
+
 class ItemModel(models.Model):
     item_model_name = models.CharField("Item model name", max_length=30, help_text="shop item category name")
     category_id = models.ManyToManyField("ItemCategory", help_text="Item category")
+
+
 
 
 

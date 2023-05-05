@@ -3,7 +3,7 @@ from PIL import Image, ImageDraw, ImageFilter
 
 
 
-def password_check(password):
+def password_check(password, username):
     # has_num = False
     # has_6_chars = False
     # has_upper = False
@@ -13,6 +13,10 @@ def password_check(password):
     if len(password) >= 6:
         print("has_6_chars")
         # has_6_chars = True
+    else:
+        return False
+    if username not in password:
+        print("username different from password")
     else:
         return False
     if any(char.isdigit() for char in password):

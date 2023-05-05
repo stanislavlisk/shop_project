@@ -6,11 +6,15 @@
 
 <p>Group test: {{ user }} - {{ user.groups.all }}</p>
 {% for group in user.groups.all %}
-    {% if group.name == 'shop_users' %}
+    {% if group.name == 'shop_admin' %}
     <p>priklauso grupei {{ group.name }} </p>
     <a href="{% url 'administrator_n' %}">administruoti</a>
     {% endif %}
 {% endfor %}
+
+<hr>
+
+{% include "view_item_category_list.html" %}
 
 
 {% endblock %}
