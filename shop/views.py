@@ -85,10 +85,12 @@ def profilis(request):
 def administrator_page(request):
     categories_num = ItemCategory.objects.all().count()
     categories_list = ItemCategory.objects.all()
+    item_models_list = ItemModel.objects.all()
 
     data = {
         'categories_num_cntx': categories_num,
-        'categories_list_cntx': categories_list
+        'categories_list_cntx': categories_list,
+        'item_models_list_cntx': item_models_list
     }
     if admin_group_name in [group.name for group in request.user.groups.all()]:
         return render(request, 'administrator_page.html', context=data)
@@ -165,6 +167,8 @@ class ItemModelCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Creat
             return True
         else:
             return False
+
+
 
 
 
