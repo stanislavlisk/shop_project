@@ -15,6 +15,7 @@ from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm
 from .models import ItemCategory
 
 
+admin_group_name = 'shop_admin'
 
 def index(request):
     paslaugos = ['vienas', 'du', 'trys']
@@ -77,8 +78,8 @@ def profilis(request):
         'u_form_cntx': u_form,
         'p_form_cntx': p_form,
     }
-
     return render(request, "user_profile.html", context=data)
+
 
 @login_required
 def administrator_page(request):
@@ -89,7 +90,11 @@ def administrator_page(request):
         'categories_num_cntx': categories_num,
         'categories_list_cntx': categories_list
     }
-    return render(request, 'administrator_page.html', context=data)
+    if admin_group_name in [group.name for group in request.user.groups.all()]:
+        return render(request, 'administrator_page.html', context=data)
+    else:
+        return redirect('index_n')
+
 
 class ItemCategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = ItemCategory
@@ -104,10 +109,12 @@ class ItemCategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Cr
 
     def test_func(self):
         user_groups_list = [group.name for group in self.request.user.groups.all()]
-        if 'shop_admin' in user_groups_list:
+        if admin_group_name in user_groups_list:
             return True
         else:
             return False
+
+
 
 
 
