@@ -34,6 +34,12 @@ class ItemModel(models.Model):
     category_id = models.ManyToManyField("ItemCategory", help_text="Item category")
     price = models.FloatField("Item price", default="0.00")
 
+    def save(self, *args, **kwargs):
+        self.price = round(self.price, 2)
+        super(ItemModel, self).save(*args, **kwargs)
+
+
+
 
 class Item(models.Model):
     item_model_id = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
