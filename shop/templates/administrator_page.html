@@ -3,10 +3,10 @@
 
 <div class="container">
     {% for category_obj in categories_list_cntx %}
-    {{ category_obj }}<br>
+    {{ category_obj }}
+    <a class="btn btn-sm btn-primary" href="{% url 'update_category_n' category_obj.id %}" role="button">Edit</a><br>
     {% endfor %}
     <a href="{% url 'add_category_n' %}">ADD CATEGORY</a><br>
-
     <a href="{% url 'add_item_model_n' %}">ADD SHOP ITEM</a>
 </div>
 {% endblock %}

@@ -10,11 +10,6 @@ class ItemCategoryCreateForm(forms.ModelForm):
         fields = ['item_category']
         widgets = {'form_user': forms.HiddenInput(),}
 
-class ItemCategoryUpdateForm(forms.ModelForm):
-    class Meta:
-        model = ItemCategory
-        fields = ['item_category']
-        widgets = {'form_user': forms.HiddenInput(),}
 
 
 class ItemModelCreateForm(forms.ModelForm):

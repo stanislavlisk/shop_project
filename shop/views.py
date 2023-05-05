@@ -11,7 +11,7 @@ from django.contrib import messages
 from .my_utils import password_check
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm, ItemCategoryUpdateForm
+from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm
 from .models import ItemCategory, ItemModel
 
 
@@ -96,6 +96,8 @@ def administrator_page(request):
         return redirect('index_n')
 
 
+# ItemCategory create, update, delete
+
 class ItemCategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = ItemCategory
     success_url = "/app/administrator"
@@ -114,25 +116,25 @@ class ItemCategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Cr
         else:
             return False
 
+class ItemCategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = ItemCategory
+    success_url = "/app/administrator"
+    template_name = "add_item_category.html"
+    form_class = ItemCategoryCreateForm
 
-# class ItemCategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
-#     model = ItemCategory
-#     success_url = "/app/administrator"
-#     template_name = "add_item_category.html"
-#     form_class = ItemCategoryUpdateForm
-#
-#     def form_valid(self, form):
-#         form.instance.form_user = self.request.user
-#         print(f"formos naudotojas: {form.instance.form_user}")
-#         return super().form_valid(form)
-#
-#     def test_func(self):
-#         user_groups_list = [group.name for group in self.request.user.groups.all()]
-#         if admin_group_name in user_groups_list:
-#             return True
-#         else:
-#             return False
+    def form_valid(self, form):
+        form.instance.form_user = self.request.user
+        print(f"formos naudotojas: {form.instance.form_user}")
+        return super().form_valid(form)
 
+    def test_func(self):
+        user_groups_list = [group.name for group in self.request.user.groups.all()]
+        if admin_group_name in user_groups_list:
+            return True
+        else:
+            return False
+
+# ItemModel create, update, delete
 
 class ItemModelCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = ItemModel
@@ -142,7 +144,6 @@ class ItemModelCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Creat
 
     def form_valid(self, form):
         form.instance.form_user = self.request.user
-        print(f"formos naudotojas: {form.instance.form_user}")
         return super().form_valid(form)
 
     def test_func(self):
