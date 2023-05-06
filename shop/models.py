@@ -43,6 +43,11 @@ class ItemModel(models.Model):
         img_thumb = generate_thumbnail(img, thumb_size)
         img_thumb.save(self.photo.path)
 
+    @property
+    def items_left(self):
+        available_items = len(self.item_set.all())
+        return available_items
+
 
     def __str__(self):
         return f"{self.item_model_name}"

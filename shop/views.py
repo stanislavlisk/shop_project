@@ -212,7 +212,6 @@ class ItemModelDetailView(generic.DetailView):
     template_name = 'view_item_model_detail.html'
 
 
-
 # Item create, update, delete
 
 class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
