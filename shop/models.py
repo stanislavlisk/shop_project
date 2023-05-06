@@ -33,6 +33,14 @@ class ItemModel(models.Model):
     item_model_name = models.CharField("Item model name", max_length=30, help_text="shop item category name")
     category_id = models.ManyToManyField("ItemCategory", help_text="Item category")
     price = models.FloatField("Item price", default="0.00")
+    photo = models.ImageField(default="item_pics/default.jpg", upload_to="item_pics")
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.photo.path)
+        thumb_size = 600
+        img_thumb = generate_thumbnail(img, thumb_size, )
+        img_thumb.save(self.photo.path)
 
     def save(self, *args, **kwargs):
         self.price = round(self.price, 2)
@@ -47,6 +55,8 @@ class ItemModel(models.Model):
 class Item(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     item_model_id = models.ForeignKey(ItemModel, on_delete=models.CASCADE, null=True, blank=True)
+
+
     ITEM_STATUS = (
         ('u', 'Unavailable'),
         ('a', 'Available'),
@@ -62,6 +72,8 @@ class Item(models.Model):
         default='u',
         help_text="Leidinio kopijos statusas"
     )
+
+
 
 
 

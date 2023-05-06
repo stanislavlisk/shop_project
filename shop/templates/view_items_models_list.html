@@ -3,6 +3,7 @@
 
 
 {% for item_obj in itemmodel_list %}
+   <img class="p-2" src="{{ item_obj.photo.url }}">
    <p>{{ item_obj.item_model_name }}</p>
    <p>{{ item_obj.price }}</p>
 {% endfor %}

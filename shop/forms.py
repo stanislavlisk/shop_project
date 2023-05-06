@@ -20,7 +20,7 @@ class ItemModelCreateForm(forms.ModelForm):
     )
     class Meta:
         model = ItemModel
-        fields = ['item_model_name', 'category_id', 'price']
+        fields = ['item_model_name', 'category_id', 'price', 'photo']
         widgets = {'form_user': forms.HiddenInput(),}
 
 ####
