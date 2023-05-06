@@ -1,16 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="container">
 
-
-        <div class="col-sm-6 col-md-4 d-flex align-items-stretch">
-            <div class="card mb-5 shadow-sm">
-                <div class="card-body">
-                    <p class="card-text">{{ itemmodel.id }}</p>
-                </div>
+        <div class="card mb-5 shadow-sm" style="max-width: 600px;  height: auto;">
+            <img src="{{ itemmodel.photo.url }}" class="card-img-top" >
+            <div class="card-body">
+                <p class="card-text">{{ itemmodel.item_model_name }}</p>
+                <p class="card-text">{{ itemmodel.price }}</p>
             </div>
         </div>
-
-
-
+</div>
 {% endblock %}
