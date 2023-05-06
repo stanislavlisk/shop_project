@@ -188,14 +188,6 @@ class ItemModelUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.Updat
             return False
 
 
-class ItemModelView(generic.ListView):
-    model = ItemModel
-    context_object_name = 'itemmodel_list'  # nebūtina, tokį pavadinimą kontekste django sukuria automatiškai
-    template_name = 'view_items_models_list.html'
-    paginate_by = 10
-
-
-
 class ItemModelDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = ItemModel
     success_url = "/app/administrator"
@@ -207,6 +199,18 @@ class ItemModelDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Delet
             return True
         else:
             return False
+
+class ItemModelListView(generic.ListView):
+    model = ItemModel
+    context_object_name = 'itemmodel_list'
+    template_name = 'view_items_models_list.html'
+    paginate_by = 10
+
+class ItemModelDetailView(generic.DetailView):
+    model = ItemModel
+    context_object_name = 'itemmodel'
+    template_name = 'view_item_model_detail.html'
+
 
 
 # Item create, update, delete
