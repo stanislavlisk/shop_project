@@ -187,6 +187,15 @@ class ItemModelUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.Updat
         else:
             return False
 
+
+class ItemModelView(generic.ListView):
+    model = ItemModel
+    context_object_name = 'itemmodel_list'  # nebūtina, tokį pavadinimą kontekste django sukuria automatiškai
+    template_name = 'view_items_models_list.html'
+    paginate_by = 10
+
+
+
 class ItemModelDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = ItemModel
     success_url = "/app/administrator"
@@ -198,6 +207,9 @@ class ItemModelDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Delet
             return True
         else:
             return False
+
+
+# Item create, update, delete
 
 class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = Item
@@ -215,6 +227,16 @@ class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
             return True
         else:
             return False
+
+class ItemView(generic.ListView):
+    model = Item
+    context_object_name = 'item_list'  # nebūtina, tokį pavadinimą kontekste django sukuria automatiškai
+    template_name = 'view_items_list.html'
+    paginate_by = 8
+
+    # def get_queryset(self):
+    #     query = Item.objects.filter(reader=self.request.user).filter(status__exact='p').order_by('due_back')
+    #     return query
 
 
 

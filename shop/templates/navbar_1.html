@@ -1,17 +1,17 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="{% url 'index_n' %}">App</a>
-    <button class="navbar-toggler"
-            type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'index_n' %}">App</a>
+        <button class="navbar-toggler"
+                type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 {% if user.is_authenticated %}
                 <li class="nav-item">
@@ -20,6 +20,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}?next=/">Logout</a>
                 </li>
+
+                {% for group in user.groups.all %}
+                {% if group.name == 'shop_admin' %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'administrator_n' %}">administruoti</a>
+                </li>
+                {% endif %}
+                {% endfor %}
 
                 {% else %}
                 <li class="nav-item">
@@ -31,7 +39,10 @@
                 {% endif %}
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'index_n' %}">Pradžia</a>
+                    <a class="nav-link" href="{% url 'index_n' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'view_items_models_n' %}">Shop</a>
                 </li>
             </ul>
         </div>

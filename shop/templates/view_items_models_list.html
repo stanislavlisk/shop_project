@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+{% for item_obj in itemmodel_list %}
+   <p>{{ item_obj.item_model_name }}</p>
+   <p>{{ item_obj.price }}</p>
+{% endfor %}
+{% endblock %}
