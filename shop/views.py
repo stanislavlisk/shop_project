@@ -12,7 +12,7 @@ from .my_utils import password_check
 from django.contrib.auth.decorators import login_required
 
 from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm, ItemCreateForm
-from .models import ItemCategory, ItemModel, Item
+from .models import ItemCategory, ItemModel, Item, Cart
 
 
 admin_group_name = 'shop_admin'

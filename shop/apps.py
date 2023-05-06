@@ -7,3 +7,5 @@ class ShopConfig(AppConfig):
 
     def ready(self):
         from .signals import create_profile
+        from .signals import add_cart
+

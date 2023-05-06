@@ -44,12 +44,8 @@ class ItemModel(models.Model):
         img_thumb.save(self.photo.path)
 
 
-
-
     def __str__(self):
         return f"{self.item_model_name}"
-
-
 
 
 class Item(models.Model):
@@ -72,6 +68,13 @@ class Item(models.Model):
         default='u',
         help_text="Leidinio kopijos statusas"
     )
+
+class Cart(models.Model):
+    cart_items_id = models.ManyToManyField("Item", help_text="items to put in carts", blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+
+
+
 
 
 
