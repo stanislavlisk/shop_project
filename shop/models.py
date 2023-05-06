@@ -33,18 +33,18 @@ class ItemModel(models.Model):
     item_model_name = models.CharField("Item model name", max_length=30, help_text="shop item category name")
     category_id = models.ManyToManyField("ItemCategory", help_text="Item category")
     price = models.FloatField("Item price", default="0.00")
-    photo = models.ImageField(default="item_pics/default.jpg", upload_to="item_pics")
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        img = Image.open(self.photo.path)
-        thumb_size = 600
-        img_thumb = generate_thumbnail(img, thumb_size, )
-        img_thumb.save(self.photo.path)
+    photo = models.ImageField(default="item_pics/default.jpg", upload_to="item_pics", null=True)
 
     def save(self, *args, **kwargs):
         self.price = round(self.price, 2)
         super(ItemModel, self).save(*args, **kwargs)
+        img = Image.open(self.photo.path)
+        thumb_size = 600
+        img_thumb = generate_thumbnail(img, thumb_size)
+        img_thumb.save(self.photo.path)
+
+
+
 
     def __str__(self):
         return f"{self.item_model_name}"

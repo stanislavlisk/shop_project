@@ -1,6 +1,8 @@
-miniapp/migrations/
+
 venv/
 .idea/
 __pycache__/
+/shop_project/secret.py
 *.py[cod]
 *$py.class
+/shop/migrations/

@@ -1,10 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
 
+<div class="container">
 
-{% for item_obj in itemmodel_list %}
-   <img class="p-2" src="{{ item_obj.photo.url }}">
-   <p>{{ item_obj.item_model_name }}</p>
-   <p>{{ item_obj.price }}</p>
-{% endfor %}
+    <div class="row">
+        {% for item_obj in itemmodel_list %}
+        <div class="col-sm-6 col-md-4 d-flex align-items-stretch">
+            <div class="card mb-5 shadow-sm">
+                <img src="{{ item_obj.photo.url }}" class="card-img-top">
+
+                <div class="card-body">
+                    <p class="card-text">{{ item_obj.item_model_name }}</p>
+                    <p class="card-text">{{ item_obj.price }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+
 {% endblock %}
