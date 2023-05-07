@@ -83,7 +83,7 @@ class CartItem(models.Model):
     item_model_id = models.ForeignKey(ItemModel, on_delete=models.CASCADE, null=True, blank=True)
     cart_id = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True, blank=True)
     quantity = models.IntegerField("quantity", default=1)
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.quantity > self.item_model_id.items_left:

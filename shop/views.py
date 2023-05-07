@@ -289,23 +289,24 @@ def user_cart_view(request):
 def test_add(request):
     if request.method == "POST":
         data = request.POST
-        #print(f"data: {data}")
-
         item_id = data.get("item_model_obj_id")
-        print(f"item id: {item_id}")
-        item_obj_by_id = ItemModel.objects.get(pk=item_id)
-        print(f"item obj: {item_obj_by_id}")
-        print(f"item price: {item_obj_by_id.price}")
+        item_obj_by_id = ItemModel.objects.get(pk=item_id) #ItemModel object instance
 
+
+        print(f"item id: {item_id}")
+        print(f"item obj: {item_obj_by_id}")
         print(f"request user: {request.user}")
         print(f"request user cart: {request.user.cart}")
 
         new_cart_item = CartItem()
 
-
         new_cart_item.item_model_id = item_obj_by_id
         new_cart_item.cart_id = request.user.cart
         new_cart_item.quantity = 1
+        new_cart_item.user = request.user
+
+        new_cart_item.save()
+
 
 
         print(f"new cart item?? : {new_cart_item}")

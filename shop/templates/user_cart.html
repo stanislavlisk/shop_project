@@ -5,14 +5,35 @@
 
 {% if user.is_authenticated %}
 
-{% for cart_item_obj in cart_cntx.cartitem_set.all %}
-model: {{  cart_item_obj.item_model_id.item_model_name }}
-price: {{ cart_item_obj.item_model_id.price }}
-quantity: {{ cart_item_obj.quantity }}
-{% endfor %}
+<div class="container">
+    <div class="row row-cols-4">
+
+        {% for cart_item_obj in cart_cntx.cartitem_set.all %}
+        <div class="col">
+            {{ cart_item_obj.item_model_id.item_model_name }}
+        </div>
+        <div class="col">
+            {{ cart_item_obj.item_model_id.price }}
+        </div>
+        <div class="col d-inline-flex flex-row">
+            {% for category_obj in cart_item_obj.item_model_id.category_id.all %}
+            <div class="m-1">{{ category_obj }}</div>
+            {% endfor %}
+        </div>
+        <div class="col">
+            <a class="btn btn-sm btn-primary btn-dark m-1" href=""
+               role="button">Edit</a>
+            <a class="btn btn-sm btn-primary btn-dark m-1" href=""
+               role="button">DELETE</a>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+
 
 {% else %}
-Forbiden
+403 Forbidden
 {% endif %}
 
 
