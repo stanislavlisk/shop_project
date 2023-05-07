@@ -3,27 +3,26 @@
 
 <div class="container">
 
-        <div class="card mb-5 shadow-sm" style="max-width: 600px;  height: auto;">
-            <img src="{{ itemmodel.photo.url }}" class="card-img-top" >
-            <div class="card-body">
-                <p class="card-text">{{ itemmodel.item_model_name }}</p>
-                <p class="card-text">{{ itemmodel.price }}</p>
-                <p class="card-text">Items left: {{ itemmodel.items_left }}</p>
+    <div class="card mb-5 shadow-sm" style="max-width: 600px;  height: auto;">
+        <img src="{{ itemmodel.photo.url }}" class="card-img-top">
+        <div class="card-body">
+            <p class="card-text">{{ itemmodel.item_model_name }}</p>
+            <p class="card-text">{{ itemmodel.price }}</p>
+            <p class="card-text">Items left: {{ itemmodel.items_left }}</p>
 
 
-                {% if user.is_authenticated %}
-                <div>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        {{ form.content }}
-                        <input type="submit" value="Add tp cart">
-                    </form>
-                </div>
-                {% endif %}
-
-
-
+            {% if user.is_authenticated %}
+            <hr>
+            <div>
+                <form action="{% url 'test_view_func_n' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-dark" name="item_model_obj_id" value="{{ itemmodel.id }}">Add</button>
+                </form>
             </div>
+            {% endif %}
+
+
         </div>
+    </div>
 </div>
 {% endblock %}

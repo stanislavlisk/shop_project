@@ -2,7 +2,7 @@ from django import forms
 
 from django.contrib.auth.models import User
 
-from .models import UserProfile, ItemCategory, ItemModel, Item, CartItem
+from .models import UserProfile, ItemCategory, ItemModel, Item, CartItem, Cart
 
 
 class ItemCategoryCreateForm(forms.ModelForm):
@@ -44,8 +44,11 @@ class UserUpdateForm(forms.ModelForm):
         fields = ['username', 'email']
 
 
-class ItemModelToCart(forms.ModelForm):
+class ItemModelToCartForm(forms.ModelForm):
     class Meta:
         model = CartItem
-        fields = ['item_model_id', 'cart_id', 'quantity']
-        widgets = {'item_model_id': forms.HiddenInput()}
+        fields = ['item_model_id', 'cart_id', 'quantity', 'user']
+        widgets = {'item_model_id': forms.HiddenInput(),
+                   'user':  forms.HiddenInput(),}
+
+

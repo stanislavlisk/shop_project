@@ -20,6 +20,7 @@ urlpatterns = [
     path("view_items/", views.ItemView.as_view(), name='view_items_n'),
     ##
     path("cart/", views.user_cart_view, name='user_cart_n'),
+    path("test_func/", views.test_add, name='test_view_func_n'),
 
 ]
 

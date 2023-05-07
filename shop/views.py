@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views import generic
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -11,8 +11,9 @@ from django.contrib import messages
 from .my_utils import password_check
 from django.contrib.auth.decorators import login_required
 
+
 from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm,\
-    ItemCreateForm, ItemModelToCart
+    ItemCreateForm, ItemModelToCartForm
 
 from .models import ItemCategory, ItemModel, Item, Cart
 
@@ -212,12 +213,16 @@ class ItemModelListView(generic.ListView):
     template_name = 'view_items_models_list.html'
     paginate_by = 10
 
-###################################################################
+################################################################################################################
+
 class ItemModelDetailView(generic.edit.FormMixin, generic.DetailView):
     model = ItemModel
     context_object_name = 'itemmodel'
     template_name = 'view_item_model_detail.html'
-    form_class = ItemModelToCart
+    form_class = ItemModelToCartForm
+
+    def get_success_url(self):
+        return reverse('view_item_model_detail_n', kwargs={'pk': self.object.id})
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -229,9 +234,18 @@ class ItemModelDetailView(generic.edit.FormMixin, generic.DetailView):
         print(f"KWARGS >> {kwargs}")
 
         if form.is_valid():
+            print("form valid")
             return self.form_valid(form)
         else:
+            print("form invalid")
             return self.form_invalid(form)
+
+    def form_valid(self, form):
+        form.instance.item_model_id = self.object
+        form.instance.user = self.request.user
+        form.save()
+        return super().form_valid(form)
+
 
 
 
@@ -257,37 +271,35 @@ class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
 
 class ItemView(generic.ListView):
     model = Item
-    context_object_name = 'item_list'  # nebūtina, tokį pavadinimą kontekste django sukuria automatiškai
+    context_object_name = 'item_list'
     template_name = 'view_items_list.html'
     paginate_by = 8
 
-    # def get_queryset(self):
-    #     query = Item.objects.filter(reader=self.request.user).filter(status__exact='p').order_by('due_back')
-    #     return query
-
-
 @login_required
 def user_cart_view(request):
-    # if request.method == "POST":
-    #     u_form = UserUpdateForm(request.POST, instance=request.user)
-    #     p_form = UserProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
-    #     if u_form.is_valid() and p_form.is_valid():
-    #         u_form.save()
-    #         p_form.save()
-    #         messages.success(request, f"Profilis atnaujintas")
-    #         return redirect('user_profile_n')
-
-    user_cart_id = request.user.cart.id
+    user_cart_id = request.user.cart.id #galime trumpiau, grazint tiesiai cart
     cart = get_object_or_404(Cart, pk=user_cart_id)
     data = {
         'cart_cntx': cart,
     }
     return render(request, "user_cart.html", context=data)
 
+
 @login_required
-def add_to_cart(request, item_id):
-    cart = Cart(request)
-    item_model = get_object_or_404(ItemModel, pk=item_id)
-    cart,created = Cart.objects.get_or_create(user=request.user, active=True)
-    cart.add_to_cart(item_id)
-    return redirect('view_items_models_list_n')
+def test_add(request):
+    if request.method == "POST":
+        data = request.POST
+        #print(f"data: {data}")
+
+        item_obj = data.get("item_model_obj_id")
+        print(f"item id: {item_obj}")
+        #print(f"item price: {item_obj.price}")
+
+        print(request.user)
+        print(request.user.cart)
+        print(request)
+
+
+        # return redirect('user_cart_n')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
