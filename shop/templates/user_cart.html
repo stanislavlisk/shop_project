@@ -5,7 +5,7 @@
 {% if user.is_authenticated %}
 
 <div class="container">
-    <div class="row row-cols-4">
+    <div class="row row-cols-5">
 
         {% for cart_item_obj in cart_cntx.cartitem_set.all %}
         <div class="col">
@@ -20,9 +20,14 @@
             {% endfor %}
         </div>
         <div class="col">
+            {{ cart_item_obj.calculated_quantity }}
+        </div>
+        <div class="col">
             <form action="{% url 'remove_item_from_cart_n' %}" method="post">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-outline-dark m-1" name="item_to_delete" value="{{ cart_item_obj.id }}">DELETE</button>
+                <button type="submit" class="btn btn-outline-dark m-1" name="item_to_delete"
+                        value="{{ cart_item_obj.id }}">DELETE
+                </button>
             </form>
         </div>
         {% endfor %}

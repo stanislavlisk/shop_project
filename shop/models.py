@@ -85,12 +85,22 @@ class CartItem(models.Model):
     quantity = models.IntegerField("quantity", default=1)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
-    def save(self, *args, **kwargs):
+
+    @property
+    def calculated_quantity(self):
         if self.quantity > self.item_model_id.items_left:
-            self.quantity = self.item_model_id.items_left
+            return self.item_model_id.items_left
         elif self.quantity < 0:
-            self.quantity == 0
-        super(CartItem, self).save(*args, **kwargs)
+            return 0
+        else:
+            return self.quantity
+
+    # def save(self, *args, **kwargs):
+    #     if self.quantity > self.item_model_id.items_left:
+    #         self.quantity = self.item_model_id.items_left
+    #     elif self.quantity < 0:
+    #         self.quantity == 0
+    #     super(CartItem, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"item's cart id: {self.cart_id}"
