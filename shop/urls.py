@@ -20,7 +20,8 @@ urlpatterns = [
     path("view_items/", views.ItemView.as_view(), name='view_items_n'),
     ##
     path("cart/", views.user_cart_view, name='user_cart_n'),
-    path("test_func/", views.test_add, name='test_view_func_n'),
+    path("add_to_cart/", views.add_item_to_cart, name='add_item_to_cart_n'),
+    path("remove_from_cart/", views.remove_item_from_cart, name='remove_item_from_cart_n'),
 
 ]
 

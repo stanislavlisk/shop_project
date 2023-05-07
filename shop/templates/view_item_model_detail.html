@@ -14,9 +14,9 @@
             {% if user.is_authenticated %}
             <hr>
             <div>
-                <form action="{% url 'test_view_func_n' %}" method="post">
+                <form action="{% url 'add_item_to_cart_n' %}" method="post">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-outline-dark" name="item_model_obj_id" value="{{ itemmodel.id }}">Add</button>
+                    <button type="submit" class="btn btn-outline-dark" name="item_to_add" value="{{ itemmodel.id }}">Add</button>
                 </form>
             </div>
             {% endif %}

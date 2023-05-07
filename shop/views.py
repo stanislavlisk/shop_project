@@ -286,10 +286,10 @@ def user_cart_view(request):
 
 
 @login_required
-def test_add(request):
+def add_item_to_cart(request):
     if request.method == "POST":
         data = request.POST
-        item_id = data.get("item_model_obj_id")
+        item_id = data.get("item_to_add")
         item_obj_by_id = ItemModel.objects.get(pk=item_id) #ItemModel object instance
 
         print(f"item id: {item_id}")
@@ -310,3 +310,13 @@ def test_add(request):
             new_cart_item.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def remove_item_from_cart(request):
+    if request.method == "POST":
+        data = request.POST
+        item_id = data.get("item_to_delete")
+        item_obj_by_id = CartItem.objects.get(pk=item_id)
+        item_obj_by_id.delete()
+        return redirect('user_cart_n')

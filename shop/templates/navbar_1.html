@@ -24,9 +24,6 @@
                     <a class="nav-link" href="{% url 'user_cart_n' %}">Cart</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'test_view_func_n' %}">test view func </a>
-                </li>
 
                 {% for group in user.groups.all %}
                 {% if group.name == 'shop_admin' %}
