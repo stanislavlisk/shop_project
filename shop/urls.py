@@ -18,6 +18,8 @@ urlpatterns = [
     ##
     path("administrator/add_item", views.ItemCreateView.as_view(), name='add_item_n'),
     path("view_items/", views.ItemView.as_view(), name='view_items_n'),
+    ##
+    path("cart/", views.user_cart_view, name='user_cart_n'),
 
 ]
 

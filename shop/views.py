@@ -11,11 +11,14 @@ from django.contrib import messages
 from .my_utils import password_check
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm, ItemCreateForm
+from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm,\
+    ItemCreateForm, ItemModelToCart
+
 from .models import ItemCategory, ItemModel, Item, Cart
 
-
+# html vistiek reikia pakeisti
 admin_group_name = 'shop_admin'
+
 
 def index(request):
     paslaugos = ['vienas', 'du', 'trys']
@@ -29,7 +32,7 @@ def index(request):
 def register(request):
     if request.method == "POST":
         # duomenu surinkimas is register formos
-        #return render(request, "book_list.html")
+        # return render(request, "book_list.html")
 
         username = request.POST['username']
         # username = request.POST.get('username') #naudojant zodyno metoda get, post yra zodynas
@@ -59,6 +62,7 @@ def register(request):
             return redirect('register_n')
 
     return render(request, "registration/register.html")
+
 
 @login_required
 def profilis(request):
@@ -98,7 +102,7 @@ def administrator_page(request):
         return redirect('index_n')
 
 
-# ItemCategory create, update, delete
+# Item Category
 
 class ItemCategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = ItemCategory
@@ -118,6 +122,7 @@ class ItemCategoryCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Cr
         else:
             return False
 
+
 class ItemCategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = ItemCategory
     success_url = "/app/administrator"
@@ -136,6 +141,7 @@ class ItemCategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.Up
         else:
             return False
 
+
 class ItemCategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model = ItemCategory
     success_url = "/app/administrator"
@@ -149,7 +155,7 @@ class ItemCategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.De
             return False
 
 
-# ItemModel create, update, delete
+# Item Model
 
 class ItemModelCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = ItemModel
@@ -168,17 +174,16 @@ class ItemModelCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.Creat
         else:
             return False
 
+
 class ItemModelUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model = ItemModel
     form_class = ItemModelCreateForm
     success_url = "/app/administrator"
     template_name = "add_item_model.html"
 
-
     def form_valid(self, form):
         form.instance.form_user = self.request.user
         return super().form_valid(form)
-
 
     def test_func(self):
         user_groups_list = [group.name for group in self.request.user.groups.all()]
@@ -200,19 +205,37 @@ class ItemModelDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.Delet
         else:
             return False
 
+
 class ItemModelListView(generic.ListView):
     model = ItemModel
     context_object_name = 'itemmodel_list'
     template_name = 'view_items_models_list.html'
     paginate_by = 10
 
-class ItemModelDetailView(generic.DetailView):
+###################################################################
+class ItemModelDetailView(generic.edit.FormMixin, generic.DetailView):
     model = ItemModel
     context_object_name = 'itemmodel'
     template_name = 'view_item_model_detail.html'
+    form_class = ItemModelToCart
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
 
 
-# Item create, update, delete
+        print(f"OBJEKTAS >> {self.object}")
+        print(f"ARGS >> {args}")
+        print(f"KWARGS >> {kwargs}")
+
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+
+
+# Item
 
 class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView):
     model = Item
@@ -231,6 +254,7 @@ class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
         else:
             return False
 
+
 class ItemView(generic.ListView):
     model = Item
     context_object_name = 'item_list'  # nebūtina, tokį pavadinimą kontekste django sukuria automatiškai
@@ -242,19 +266,28 @@ class ItemView(generic.ListView):
     #     return query
 
 
+@login_required
+def user_cart_view(request):
+    # if request.method == "POST":
+    #     u_form = UserUpdateForm(request.POST, instance=request.user)
+    #     p_form = UserProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
+    #     if u_form.is_valid() and p_form.is_valid():
+    #         u_form.save()
+    #         p_form.save()
+    #         messages.success(request, f"Profilis atnaujintas")
+    #         return redirect('user_profile_n')
 
+    user_cart_id = request.user.cart.id
+    cart = get_object_or_404(Cart, pk=user_cart_id)
+    data = {
+        'cart_cntx': cart,
+    }
+    return render(request, "user_cart.html", context=data)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+@login_required
+def add_to_cart(request, item_id):
+    cart = Cart(request)
+    item_model = get_object_or_404(ItemModel, pk=item_id)
+    cart,created = Cart.objects.get_or_create(user=request.user, active=True)
+    cart.add_to_cart(item_id)
+    return redirect('view_items_models_list_n')

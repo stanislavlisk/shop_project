@@ -75,8 +75,23 @@ class Item(models.Model):
     )
 
 class Cart(models.Model):
-    cart_items_id = models.ManyToManyField("Item", help_text="items to put in carts", blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+
+
+
+class CartItem(models.Model):
+    item_model_id = models.ForeignKey(ItemModel, on_delete=models.CASCADE, null=True, blank=True)
+    cart_id = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True, blank=True)
+    quantity = models.IntegerField("quantity")
+
+    def save(self, *args, **kwargs):
+        if self.quantity > self.item_model_id.items_left:
+            self.quantity = self.item_model_id.items_left
+        elif self.quantity < 0:
+            self.quantity == 0
+        super(CartItem, self).save(*args, **kwargs)
+
+
 
 
 

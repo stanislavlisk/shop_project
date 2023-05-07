@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+
+
+{% if user.is_authenticated %}
+
+{% for cart_item_obj in cart_cntx.cartitem_set.all %}
+model: {{  cart_item_obj.item_model_id.item_model_name }}
+price: {{ cart_item_obj.item_model_id.price }}
+quantity: {{ cart_item_obj.quantity }}
+{% endfor %}
+
+{% else %}
+Forbiden
+{% endif %}
+
+
+
+{% endblock %}

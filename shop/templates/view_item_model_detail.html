@@ -9,6 +9,20 @@
                 <p class="card-text">{{ itemmodel.item_model_name }}</p>
                 <p class="card-text">{{ itemmodel.price }}</p>
                 <p class="card-text">Items left: {{ itemmodel.items_left }}</p>
+
+
+                {% if user.is_authenticated %}
+                <div>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form.content }}
+                        <input type="submit" value="Add tp cart">
+                    </form>
+                </div>
+                {% endif %}
+
+
+
             </div>
         </div>
 </div>
