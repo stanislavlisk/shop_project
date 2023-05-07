@@ -15,7 +15,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm,\
     ItemCreateForm, ItemModelToCartForm
 
-from .models import ItemCategory, ItemModel, Item, Cart
+from .models import ItemCategory, ItemModel, Item, Cart, CartItem
 
 # html vistiek reikia pakeisti
 admin_group_name = 'shop_admin'
@@ -291,13 +291,24 @@ def test_add(request):
         data = request.POST
         #print(f"data: {data}")
 
-        item_obj = data.get("item_model_obj_id")
-        print(f"item id: {item_obj}")
-        #print(f"item price: {item_obj.price}")
+        item_id = data.get("item_model_obj_id")
+        print(f"item id: {item_id}")
+        item_obj_by_id = ItemModel.objects.get(pk=item_id)
+        print(f"item obj: {item_obj_by_id}")
+        print(f"item price: {item_obj_by_id.price}")
 
-        print(request.user)
-        print(request.user.cart)
-        print(request)
+        print(f"request user: {request.user}")
+        print(f"request user cart: {request.user.cart}")
+
+        new_cart_item = CartItem()
+
+
+        new_cart_item.item_model_id = item_obj_by_id
+        new_cart_item.cart_id = request.user.cart
+        new_cart_item.quantity = 1
+
+
+        print(f"new cart item?? : {new_cart_item}")
 
 
         # return redirect('user_cart_n')

@@ -92,6 +92,9 @@ class CartItem(models.Model):
             self.quantity == 0
         super(CartItem, self).save(*args, **kwargs)
 
+    def __str__(self):
+        return f"item's cart id: {self.cart_id}"
+
 
 
 
