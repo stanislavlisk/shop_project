@@ -4,7 +4,7 @@
 
 {% if user.is_authenticated %}
 
-<div class="container">
+<div class="container mt-5">
     <div class="row row-cols-5">
 
         {% for cart_item_obj in cart_cntx.cartitem_set.all %}
@@ -19,8 +19,23 @@
             <div class="m-1">{{ category_obj }}</div>
             {% endfor %}
         </div>
-        <div class="col">
-            {{ cart_item_obj.calculated_quantity }}
+
+        <div class="col d-inline-flex flex-row align-items-center">
+
+            <form action="{% url 'decrease_quantity_n' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-dark m-1" name="decrease_quantity"
+                   value="{{ cart_item_obj.id }}">-</button>
+            </form>
+
+            <div class="m-1">{{ cart_item_obj.calculated_quantity }}</div>
+
+            <form action="{% url 'increase_quantity_n' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-dark m-1" name="increase_quantity"
+                   value="{{ cart_item_obj.id }}">+</button>
+            </form>
+
         </div>
         <div class="col">
             <form action="{% url 'remove_item_from_cart_n' %}" method="post">

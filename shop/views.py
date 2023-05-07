@@ -311,7 +311,6 @@ def add_item_to_cart(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-
 @login_required
 def remove_item_from_cart(request):
     if request.method == "POST":
@@ -319,4 +318,24 @@ def remove_item_from_cart(request):
         item_id = data.get("item_to_delete")
         item_obj_by_id = CartItem.objects.get(pk=item_id)
         item_obj_by_id.delete()
+        return redirect('user_cart_n')
+
+@login_required
+def increase_item_count(request):
+    if request.method == "POST":
+        data = request.POST
+        item_id = data.get("increase_quantity")
+        item_obj_by_id = CartItem.objects.get(pk=item_id)
+        item_obj_by_id.quantity += 1
+        item_obj_by_id.save()
+        return redirect('user_cart_n')
+
+@login_required
+def decrease_item_count(request):
+    if request.method == "POST":
+        data = request.POST
+        item_id = data.get("decrease_quantity")
+        item_obj_by_id = CartItem.objects.get(pk=item_id)
+        item_obj_by_id.quantity -= 1
+        item_obj_by_id.save()
         return redirect('user_cart_n')
