@@ -1,9 +1,39 @@
 {% extends "base.html" %}
 {% block content %}
 
+{% for group in user.groups.all %}
+{% if group.name == 'shop_admin' %}
 
-{% for item_obj in item_list %}
-   <p>{{ item_obj.id }}</p>
+
+<div class="container mt-5">
+    <div class="row row-cols-3">
+
+        <div class="col">
+            <h4>Item status</h4>
+        </div>
+        <div class="col">
+            <h4>Item model</h4>
+        </div>
+        <div class="col">
+            <h4>Item ID</h4>
+        </div>
+
+        {% for item_obj in item_list %}
+        <div class="col">
+            {{ item_obj.status }}
+        </div>
+        <div class="col">
+            {{ item_obj.item_model_id.item_model_name }}
+        </div>
+        <div class="col">
+            {{ item_obj.id }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endif %}
 {% endfor %}
 
 

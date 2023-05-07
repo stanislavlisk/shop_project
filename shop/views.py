@@ -11,8 +11,7 @@ from django.contrib import messages
 from .my_utils import password_check
 from django.contrib.auth.decorators import login_required
 
-
-from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm,\
+from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm, \
     ItemCreateForm, ItemModelToCartForm
 
 from .models import ItemCategory, ItemModel, Item, Cart, CartItem
@@ -91,11 +90,13 @@ def administrator_page(request):
     categories_num = ItemCategory.objects.all().count()
     categories_list = ItemCategory.objects.all()
     item_models_list = ItemModel.objects.all()
+    item_list = ItemModel.objects.all()
 
     data = {
         'categories_num_cntx': categories_num,
         'categories_list_cntx': categories_list,
-        'item_models_list_cntx': item_models_list
+        'item_models_list_cntx': item_models_list,
+        'item_list_cntx': item_list,
     }
     if admin_group_name in [group.name for group in request.user.groups.all()]:
         return render(request, 'administrator_page.html', context=data)
@@ -213,40 +214,11 @@ class ItemModelListView(generic.ListView):
     template_name = 'view_items_models_list.html'
     paginate_by = 10
 
-################################################################################################################
 
-class ItemModelDetailView(generic.edit.FormMixin, generic.DetailView):
+class ItemModelDetailView(generic.DetailView):
     model = ItemModel
     context_object_name = 'itemmodel'
     template_name = 'view_item_model_detail.html'
-    form_class = ItemModelToCartForm
-
-    def get_success_url(self):
-        return reverse('view_item_model_detail_n', kwargs={'pk': self.object.id})
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-
-
-        print(f"OBJEKTAS >> {self.object}")
-        print(f"ARGS >> {args}")
-        print(f"KWARGS >> {kwargs}")
-
-        if form.is_valid():
-            print("form valid")
-            return self.form_valid(form)
-        else:
-            print("form invalid")
-            return self.form_invalid(form)
-
-    def form_valid(self, form):
-        form.instance.item_model_id = self.object
-        form.instance.user = self.request.user
-        form.save()
-        return super().form_valid(form)
-
-
 
 
 # Item
@@ -269,15 +241,24 @@ class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
             return False
 
 
-class ItemView(generic.ListView):
+class ItemView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
     model = Item
     context_object_name = 'item_list'
     template_name = 'view_items_list.html'
-    paginate_by = 8
+    paginate_by = 50
+
+    def test_func(self):
+        user_groups_list = [group.name for group in self.request.user.groups.all()]
+        if admin_group_name in user_groups_list:
+            return True
+        else:
+            return False
+
 
 @login_required
+@csrf_protect
 def user_cart_view(request):
-    user_cart_id = request.user.cart.id #galime trumpiau, grazint tiesiai cart
+    user_cart_id = request.user.cart.id  # galime trumpiau, grazint tiesiai cart
     cart = get_object_or_404(Cart, pk=user_cart_id)
     data = {
         'cart_cntx': cart,
@@ -286,11 +267,12 @@ def user_cart_view(request):
 
 
 @login_required
+@csrf_protect
 def add_item_to_cart(request):
     if request.method == "POST":
         data = request.POST
         item_id = data.get("item_to_add")
-        item_obj_by_id = ItemModel.objects.get(pk=item_id) #ItemModel object instance
+        item_obj_by_id = ItemModel.objects.get(pk=item_id)  # ItemModel object instance
 
         print(f"item id: {item_id}")
         print(f"item obj: {item_obj_by_id}")
@@ -311,7 +293,9 @@ def add_item_to_cart(request):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
 @login_required
+@csrf_protect
 def remove_item_from_cart(request):
     if request.method == "POST":
         data = request.POST
@@ -320,7 +304,9 @@ def remove_item_from_cart(request):
         item_obj_by_id.delete()
         return redirect('user_cart_n')
 
+
 @login_required
+@csrf_protect
 def increase_item_count(request):
     if request.method == "POST":
         data = request.POST
@@ -330,7 +316,9 @@ def increase_item_count(request):
         item_obj_by_id.save()
         return redirect('user_cart_n')
 
+
 @login_required
+@csrf_protect
 def decrease_item_count(request):
     if request.method == "POST":
         data = request.POST

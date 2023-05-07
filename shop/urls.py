@@ -17,7 +17,7 @@ urlpatterns = [
     path("view_item_model_detail/<int:pk>", views.ItemModelDetailView.as_view(), name='view_item_model_detail_n'),
     ##
     path("administrator/add_item", views.ItemCreateView.as_view(), name='add_item_n'),
-    path("view_items/", views.ItemView.as_view(), name='view_items_n'),
+    path("administrator/view_items", views.ItemView.as_view(), name='view_items_list_n'),
     ##
     path("cart/", views.user_cart_view, name='user_cart_n'),
     path("add_to_cart/", views.add_item_to_cart, name='add_item_to_cart_n'),
