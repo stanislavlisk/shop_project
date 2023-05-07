@@ -1,31 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="d-inline-flex flex-column p-4">
-    {% for category_obj in categories_list_cntx %}
-    <div class="d-flex flex-row p-2  justify-content-between">
-        <div>
-            {{ category_obj }}
-        </div>
-        <div class="d-inline-flex flex-row">
-            <a class="btn btn-sm btn-primary btn-dark m-1" href="{% url 'update_category_n' category_obj.id %}"
-               role="button">Edit</a>
-            <a class="btn btn-sm btn-primary btn-dark m-1" href="{% url 'delete_category_n' category_obj.id %}"
-               role="button">Delete</a>
-        </div>
-    </div>
-    {% endfor %}
-
-    <div class="d-inline-flex flex-row p-4">
+<div class="container ">
+    <div class="d-inline-flex flex-row">
         <a class="btn btn-sm btn-primary btn-dark m-1" href="{% url 'add_category_n' %}">ADD CATEGORY</a>
         <a class="btn btn-sm btn-primary btn-dark m-1" href="{% url 'add_item_model_n' %}">ADD SHOP ITEM MODEL</a>
         <a class="btn btn-sm btn-primary btn-dark m-1" href="{% url 'add_item_n' %}">ADD SHOP ITEM</a>
     </div>
+</div>
 
+<div class="container mt-5">
+    <h5>CATEGORIES</h5>
+    <div class="row row-cols-2">
+
+        {% for category_obj in categories_list_cntx %}
+        <div class="col">
+            {{ category_obj }}
+        </div>
+
+        <div class="col">
+            <a class="btn btn-outline-dark m-1" href="{% url 'update_category_n' category_obj.id %}"
+               role="button">Edit</a>
+            <a class="btn btn-outline-dark m-1" href="{% url 'delete_category_n' category_obj.id %}"
+               role="button">Delete</a>
+        </div>
+        {% endfor %}
+
+    </div>
 </div>
 
 
-<div class="container">
+<div class="container mt-5">
+    <h5>ITEM MODELS</h5>
     <div class="row row-cols-4">
 
         {% for item_model_obj in item_models_list_cntx %}
@@ -40,10 +46,10 @@
             <div class="m-1">{{ category_obj }}</div>
             {% endfor %}
         </div>
-        <div class="col">
-            <a class="btn btn-sm btn-primary btn-dark m-1" href="{% url 'update_item_model_n' item_model_obj.id %}"
+        <div class="col d-inline-flex flex-row">
+            <a class="btn btn-outline-dark m-1" href="{% url 'update_item_model_n' item_model_obj.id %}"
                role="button">Edit</a>
-            <a class="btn btn-sm btn-primary btn-dark m-1" href="{% url 'delete_item_model_n' item_model_obj.id %}"
+            <a class="btn btn-outline-dark m-1" href="{% url 'delete_item_model_n' item_model_obj.id %}"
                role="button">DELETE</a>
         </div>
         {% endfor %}

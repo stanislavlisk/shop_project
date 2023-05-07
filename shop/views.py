@@ -292,26 +292,21 @@ def test_add(request):
         item_id = data.get("item_model_obj_id")
         item_obj_by_id = ItemModel.objects.get(pk=item_id) #ItemModel object instance
 
-
         print(f"item id: {item_id}")
         print(f"item obj: {item_obj_by_id}")
         print(f"request user: {request.user}")
         print(f"request user cart: {request.user.cart}")
 
-        new_cart_item = CartItem()
+        if item_obj_by_id in [i.item_model_id for i in request.user.cart.cartitem_set.all()]:
+            print("Already in CART!")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            new_cart_item = CartItem()
+            new_cart_item.item_model_id = item_obj_by_id
+            new_cart_item.cart_id = request.user.cart
+            new_cart_item.quantity = 1
+            new_cart_item.user = request.user
 
-        new_cart_item.item_model_id = item_obj_by_id
-        new_cart_item.cart_id = request.user.cart
-        new_cart_item.quantity = 1
-        new_cart_item.user = request.user
-
-        new_cart_item.save()
-
-
-
-        print(f"new cart item?? : {new_cart_item}")
-
-
-        # return redirect('user_cart_n')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            new_cart_item.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
