@@ -15,7 +15,7 @@
             <img src="{{ cart_item_obj.item_model_id.photo.url }}" class="card-img-top" style="max-width: 50px;  height: auto;">
         </div>
         <div class="col">
-            {{ cart_item_obj.item_model_id.price }}
+            {{ cart_item_obj.calculated_price }}
         </div>
         <div class="col d-inline-flex flex-row">
             {% for category_obj in cart_item_obj.item_model_id.category_id.all %}

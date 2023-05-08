@@ -101,6 +101,10 @@ class CartItem(models.Model):
         else:
             return self.quantity
 
+    @property
+    def calculated_price(self):
+        return self.calculated_quantity * self.item_model_id.price
+
     def save(self, *args, **kwargs):
         if self.quantity > self.item_model_id.items_left:
             self.quantity = self.item_model_id.items_left

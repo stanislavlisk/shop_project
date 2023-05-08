@@ -44,7 +44,7 @@
 
 
 <div class="container mt-5">
-    <div class="row row-cols-3">
+    <div class="row row-cols-5">
 
         <div class="col">
             <h4>Item status</h4>
@@ -52,19 +52,28 @@
         <div class="col">
             <h4>Item model</h4>
         </div>
-        <div class="col">
+        <div class="col col-4">
             <h4>Item ID</h4>
+        </div>
+        <div class="col">
+            <h4>Options</h4>
         </div>
 
         {% for item_obj in item_list %}
         <div class="col">
-            {{ item_obj.status }}
+            {{ item_obj.get_status_display }}
         </div>
         <div class="col">
             {{ item_obj.item_model_id.item_model_name }}
         </div>
-        <div class="col">
+        <div class="col col-4"">
             {{ item_obj.id }}
+        </div>
+        <div class="col">
+            <a class="btn btn-outline-dark m-1" href="{% url 'update_item_n' item_obj.id %}"
+               role="button">Edit</a>
+            <a class="btn btn-outline-dark m-1" href=""
+               role="button">Delete</a>
         </div>
         {% endfor %}
     </div>

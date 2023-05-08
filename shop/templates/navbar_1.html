@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
+    <div class="container-fluid p-3">
         <a class="navbar-brand" href="{% url 'index_n' %}">App</a>
         <button class="navbar-toggler"
                 type="button" data-bs-toggle="collapse"
@@ -15,7 +15,7 @@
 
                 {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'user_profile_n' %}">{{ user.get_username }}</a>
+                    <a class="nav-link" href="{% url 'user_profile_n' %}">[{{ user.get_username }}]</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}?next=/">Logout</a>
@@ -28,7 +28,7 @@
                 {% for group in user.groups.all %}
                 {% if group.name == 'shop_admin' %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'administrator_n' %}">administruoti</a>
+                    <a class="nav-link" href="{% url 'administrator_n' %}">[Administruoti]</a>
                 </li>
                 {% endif %}
                 {% endfor %}
@@ -41,10 +41,6 @@
                     <a class="nav-link" href="{% url 'login' %}?next=/">Login</a>
                 </li>
                 {% endif %}
-
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'index_n' %}">Home</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'view_items_models_list_n' %}">Shop</a>
                 </li>

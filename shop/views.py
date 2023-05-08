@@ -11,9 +11,9 @@ from django.contrib import messages
 from .my_utils import password_check
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm, \
-    ItemCreateForm, ItemModelToCartForm
 
+from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm, \
+    ItemCreateForm
 from .models import ItemCategory, ItemModel, Item, Cart, CartItem
 
 # html vistiek reikia pakeisti
@@ -22,7 +22,6 @@ admin_group_name = 'shop_admin'
 
 def index(request):
     return redirect('view_items_models_list_n')
-
 
 @csrf_protect
 def register(request):
@@ -225,6 +224,23 @@ class ItemCreateView(LoginRequiredMixin, UserPassesTestMixin, generic.CreateView
     model = Item
     form_class = ItemCreateForm
     success_url = "/app/administrator"
+    template_name = "add_item.html"
+
+    def form_valid(self, form):
+        form.instance.form_user = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        user_groups_list = [group.name for group in self.request.user.groups.all()]
+        if admin_group_name in user_groups_list:
+            return True
+        else:
+            return False
+
+class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = Item
+    form_class = ItemCreateForm
+    success_url = "/app/administrator/view_items"
     template_name = "add_item.html"
 
     def form_valid(self, form):

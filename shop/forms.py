@@ -31,6 +31,7 @@ class ItemCreateForm(forms.ModelForm):
         widgets = {'form_user': forms.HiddenInput(),}
 
 
+
 class UserProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserProfile
@@ -44,11 +45,5 @@ class UserUpdateForm(forms.ModelForm):
         fields = ['username', 'email']
 
 
-class ItemModelToCartForm(forms.ModelForm):
-    class Meta:
-        model = CartItem
-        fields = ['item_model_id', 'cart_id', 'quantity', 'user']
-        widgets = {'item_model_id': forms.HiddenInput(),
-                   'user':  forms.HiddenInput(),}
 
 
