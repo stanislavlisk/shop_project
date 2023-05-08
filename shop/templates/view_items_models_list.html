@@ -12,9 +12,9 @@
                 </a>
 
                 <div class="card-body">
-                    <p class="card-text">{{ item_obj.item_model_name }}</p>
-                    <span class="card-text">{{ item_obj.price }}</span><br>
-                    <span class="card-text"><a href="{% url 'view_item_model_detail_n' item_obj.id %}">view</a></span>
+                    <p class="card-text">{{ item_obj.item_model_name }}{% if item_obj.items_left_a  == 1 %}  [last]{% endif %}</p>
+                    <p class="card-text">{{ item_obj.price }}</p>
+                    <p class="card-text"><a href="{% url 'view_item_model_detail_n' item_obj.id %}">view</a></p>
                 </div>
             </div>
         </div>
