@@ -11,9 +11,14 @@
 </div>
 
 <div class="container mt-5">
-    <h5>CATEGORIES</h5>
-    <div class="row row-cols-2">
 
+    <div class="row row-cols-2">
+        <div class="col">
+            <h5>CATEGORIES</h5>
+        </div>
+        <div class="col">
+            <h5>OPTIONS</h5>
+        </div>
         {% for category_obj in categories_list_cntx %}
         <div class="col">
             {{ category_obj }}
@@ -32,8 +37,24 @@
 
 
 <div class="container mt-5">
-    <h5>ITEM MODELS</h5>
-    <div class="row row-cols-4">
+
+
+    <div class="row row-cols-5">
+        <div class="col">
+            <h5>ITEM MODELS</h5>
+        </div>
+        <div class="col">
+            <h5>ITEM PRICE</h5>
+        </div>
+        <div class="col">
+            <h5>AVAILABLE/TOTAL</h5>
+        </div>
+        <div class="col">
+            <h5>CATEGORIES</h5>
+        </div>
+        <div class="col">
+            <h5>OPTIONS</h5>
+        </div>
 
         {% for item_model_obj in item_models_list_cntx %}
         <div class="col">
@@ -42,6 +63,10 @@
         <div class="col">
             {{ item_model_obj.price }}
         </div>
+        <div class="col">
+            {{ item_model_obj.items_left_a }} / {{ item_model_obj.items_left }}
+        </div>
+
         <div class="col d-inline-flex flex-row">
             {% for category_obj in item_model_obj.category_id.all %}
             <div class="m-1">{{ category_obj }}</div>

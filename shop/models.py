@@ -44,9 +44,13 @@ class ItemModel(models.Model):
         img_thumb.save(self.photo.path)
 
     @property
+    def items_left_a(self):
+        return len(self.item_set.filter(status='a'))
+
+    @property
     def items_left(self):
-        available_items = len(self.item_set.filter(status='a'))
-        return available_items
+        return len(self.item_set.all())
+
 
 
     def __str__(self):
@@ -94,8 +98,8 @@ class CartItem(models.Model):
 
     @property
     def calculated_quantity(self):
-        if self.quantity > self.item_model_id.items_left:
-            return self.item_model_id.items_left
+        if self.quantity > self.item_model_id.items_left_a:
+            return self.item_model_id.items_left_a
         elif self.quantity < 0:
             return 0
         else:
@@ -106,8 +110,8 @@ class CartItem(models.Model):
         return self.calculated_quantity * self.item_model_id.price
 
     def save(self, *args, **kwargs):
-        if self.quantity > self.item_model_id.items_left:
-            self.quantity = self.item_model_id.items_left
+        if self.quantity > self.item_model_id.items_left_a:
+            self.quantity = self.item_model_id.items_left_a
         elif self.quantity < 0:
             self.quantity = 0
         super(CartItem, self).save(*args, **kwargs)
