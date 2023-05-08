@@ -20,6 +20,7 @@ urlpatterns = [
     path("administrator/<uuid:pk>/update_item", views.ItemUpdateView.as_view(), name='update_item_n'),
     path("administrator/<uuid:pk>/delete_item", views.ItemDeleteView.as_view(), name='delete_item_n'),
     path("administrator/view_items", views.ItemView.as_view(), name='view_items_list_n'),
+    path("administrator/view_orders", views.AdministratorOrderListView.as_view(), name='view_order_list_n'),
     ##
     path("cart/", views.user_cart_view, name='user_cart_n'),
     path("add_to_cart/", views.add_item_to_cart, name='add_item_to_cart_n'),
@@ -28,6 +29,8 @@ urlpatterns = [
     path("cart/decrease/", views.decrease_item_count, name='decrease_quantity_n'),
     ##
     path("cart/submit", views.submit_order_by_user, name='submit_order_by_user_n'),
+    path("cart/user_orders", views.UserOrderListView.as_view(), name='view_order_by_user_list_n'),
+
 
 ]
 

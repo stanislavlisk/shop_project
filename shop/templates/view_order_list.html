@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user.is_authenticated %}
+
+<div class="container mt-5">
+    <div class="row row-cols-2">
+
+        <div class="col">
+            <h4>ID</h4>
+        </div>
+        <div class="col">
+            <h4>Date created</h4>
+        </div>
+
+        {% for order_obj in order_list %}
+        <div class="col">
+            {{ order_obj.id }}
+        </div>
+        <div class="col">
+            date: {{ order_obj.date_created }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endif %}
+{% endblock %}
