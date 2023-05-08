@@ -72,7 +72,7 @@
         <div class="col">
             <a class="btn btn-outline-dark m-1" href="{% url 'update_item_n' item_obj.id %}"
                role="button">Edit</a>
-            <a class="btn btn-outline-dark m-1" href=""
+            <a class="btn btn-outline-dark m-1" href="{% url 'delete_item_n' item_obj.id %}"
                role="button">Delete</a>
         </div>
         {% endfor %}

@@ -1,8 +1,8 @@
 from django import forms
-
 from django.contrib.auth.models import User
-
 from .models import UserProfile, ItemCategory, ItemModel, Item, CartItem, Cart
+
+
 
 
 class ItemCategoryCreateForm(forms.ModelForm):
@@ -29,13 +29,6 @@ class ItemCreateForm(forms.ModelForm):
         model = Item
         fields = ['item_model_id', 'status']
         widgets = {'form_user': forms.HiddenInput(),}
-
-# class ItemDeleteForm(forms.ModelForm):
-#     class Meta:
-#         model = Item
-#         fields = ['item_model_id', 'status']
-#         widgets = {'form_user': forms.HiddenInput(),}
-
 
 
 class UserProfileUpdateForm(forms.ModelForm):

@@ -71,7 +71,7 @@ class Item(models.Model):
         choices=ITEM_STATUS,
         blank=True,
         default='u',
-        help_text="Leidinio kopijos statusas"
+        help_text="Item status"
     )
 
 class Cart(models.Model):

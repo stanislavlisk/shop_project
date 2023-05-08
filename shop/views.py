@@ -254,6 +254,18 @@ class ItemUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView
         else:
             return False
 
+class ItemDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = Item
+    success_url = "/app/administrator/view_items"
+    template_name = "delete_item.html"
+
+    def test_func(self):
+        user_groups_list = [group.name for group in self.request.user.groups.all()]
+        if admin_group_name in user_groups_list:
+            return True
+        else:
+            return False
+
 
 class ItemView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
     model = Item
