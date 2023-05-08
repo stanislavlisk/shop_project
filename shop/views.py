@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect, reverse
 from django.views import generic
@@ -32,7 +31,6 @@ def register(request):
         password2 = request.POST['password2']
         if password == password2:
             check_result = password_check(password, username)
-            print(f">>>{check_result}")
             if check_result == 'ok':
                 if User.objects.filter(username=username).exists():
                     messages.error(request, "Username %s ir already exists" % username)
@@ -47,7 +45,7 @@ def register(request):
                         messages.info(request, f"Vartotojas {username} užregistruotas !")
                         return redirect('login')
             else:
-                messages.error(request, f">>{check_result}")
+                messages.error(request, f"error: {check_result}")
                 return redirect('register_n')
         else:
             messages.error(request, f"Slaptažodžiai turi sutapti !")
