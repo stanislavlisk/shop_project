@@ -21,11 +21,7 @@ admin_group_name = 'shop_admin'
 
 
 def index(request):
-    paslaugos = ['vienas', 'du', 'trys']
-    data = {
-        'paslaugos_c': paslaugos
-    }
-    return render(request, 'index.html', context=data)
+    return redirect('view_items_models_list_n')
 
 
 @csrf_protect

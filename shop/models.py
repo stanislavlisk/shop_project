@@ -77,6 +77,12 @@ class Item(models.Model):
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
+    @property
+    def cart_total(self):
+        items = [item for item in self.cartitem_set.all()]
+        return sum([(i.item_model_id.price * i.calculated_quantity) for i in items])
+
+
 
 
 class CartItem(models.Model):
