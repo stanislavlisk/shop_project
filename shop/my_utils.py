@@ -10,35 +10,38 @@ def password_check(password, username):
     # has_lower = False
     # has_symbol = False
     special_chars = "#$%^&*()-+?!_=,<>/"
+    s1 = "too short"
+    s2 = "username similar to password"
+    s3 = "no digit used"
+    s4 = "at least one upper letter"
+    s5 = "at least one lower letter"
+    s6 = "use at least one valid character: #$%^&*()-+?!_=,<>/"
+    s7 = "ok"
+
     if len(password) >= 6:
-        print("has_6_chars")
-        # has_6_chars = True
+        pass
     else:
-        return False
+        return s1
     if username not in password:
-        print("username different from password")
+        pass
     else:
-        return False
+        return s2
     if any(char.isdigit() for char in password):
-        print("has_num")
-        # has_num = True
+        pass
     else:
-        return False
+        return s3
     if any(char.isupper() for char in password):
-        print("has_upper")
-        # has_upper = True
+        pass
     else:
-        return False
+        return s4
     if any(char.islower() for char in password):
-        print("has_lower")
-        # has_lower = True
+        pass
     else:
-        return False
+        return s5
     if any(char in special_chars for char in password):
-        # has_symbol = True
-        print("has_symbol")
-        print("password OK")
-        return True
+        return s7
+    else:
+        return s6
 
 def generate_thumbnail(img, tmbsize):
     img_width, img_height = img.size

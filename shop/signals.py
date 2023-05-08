@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User  # siuntėjas
+from django.contrib.auth.models import User, Group  # siuntėjas
 from django.db.models.signals import post_save  # signalas
 from django.dispatch import receiver  # gavėjo dekoratorius
 
@@ -9,6 +9,7 @@ from .models import UserProfile, Cart
 def create_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
+        instance.groups.add(Group.objects.get(name='shop_users'))
     else:
         instance.userprofile.save()
     print(instance, created)

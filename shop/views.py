@@ -31,17 +31,14 @@ def index(request):
 @csrf_protect
 def register(request):
     if request.method == "POST":
-        # duomenu surinkimas is register formos
-        # return render(request, "book_list.html")
-
         username = request.POST['username']
-        # username = request.POST.get('username') #naudojant zodyno metoda get, post yra zodynas
         email = request.POST['email']
         password = request.POST['password']
         password2 = request.POST['password2']
-        # ar sutampa slaptazodziai?
         if password == password2:
-            if password_check(password, username):
+            check_result = password_check(password, username)
+            print(f">>>{check_result}")
+            if check_result == 'ok':
                 if User.objects.filter(username=username).exists():
                     messages.error(request, "Username %s ir already exists" % username)
                     return redirect('register_n')
@@ -55,8 +52,8 @@ def register(request):
                         messages.info(request, f"Vartotojas {username} užregistruotas !")
                         return redirect('login')
             else:
-                messages.error(request, f"Slaptažodis turi turėti bent vieną skaičių, simbolį ir didžiąją raidę")
-                return redirect('login')
+                messages.error(request, f">>{check_result}")
+                return redirect('register_n')
         else:
             messages.error(request, f"Slaptažodžiai turi sutapti !")
             return redirect('register_n')
