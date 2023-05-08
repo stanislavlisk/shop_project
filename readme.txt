@@ -1,12 +1,16 @@
 PTU-10 Stasio Liškevičiaus baigiamasis darbas
+Dėstytojas Ramūnas Platūkis
+
+
 
 Darbas - nedidelės Internetinės parduotuvės karkasas
 
 Pagrindinės funkcijos:
 
-Administratoriaus grupė ir paskyra,
+Administratoriaus paskyra,
 kur puslapio savininkas gali sukurti prekes,
-jas pridėti, trinti, keisti stątusą, peržiūrėti likučius.
+jas pridėti, trinti, keisti stątusą, peržiūrėti likučius,
+atlikti pagrindinius veiksmus.
 
 vartotojo paskyra ir krepšelis,
 kur vartotojas gali įdėti patinkančias prekes, pridėti jų dar ar išimti,
@@ -16,6 +20,7 @@ neįgyvendinta:
 išsaugoti užsakymo krepšelį
 atsiskaityti,
 įkelti daugiau paveikslėlių,
+
 
 
 

@@ -39,7 +39,10 @@
 <div class="container mt-5">
 
 
-    <div class="row row-cols-5">
+    <div class="row row-cols-6">
+        <div class="col">
+            <h5>PICTURE</h5>
+        </div>
         <div class="col">
             <h5>ITEM MODELS</h5>
         </div>
@@ -57,6 +60,9 @@
         </div>
 
         {% for item_model_obj in item_models_list_cntx %}
+        <div class="col">
+            <img src="{{ item_model_obj.photo.url }}" class="card-img-top" style="max-width: 50px;  height: auto;">
+        </div>
         <div class="col">
             {{ item_model_obj.item_model_name }}
         </div>

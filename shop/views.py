@@ -13,7 +13,7 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import UserProfileUpdateForm, UserUpdateForm, ItemCategoryCreateForm, ItemModelCreateForm, \
     ItemCreateForm
-from .models import ItemCategory, ItemModel, Item, Cart, CartItem
+from .models import ItemCategory, ItemModel, Item, Cart, CartItem, Order
 
 # html vistiek reikia pakeisti
 admin_group_name = 'shop_admin'
@@ -355,3 +355,22 @@ def decrease_item_count(request):
         item_obj_by_id.quantity -= 1
         item_obj_by_id.save()
         return redirect('user_cart_n')
+
+
+@login_required
+@csrf_protect
+def submit_order_by_user(request):
+    if request.method == "POST":
+        user = request.user
+        cart_obj = user.cart
+
+        new_order = Order()
+        new_order.user = user
+        if len(user.cart.cartitem_set.all()) > 0 and user.cart.cart_total > 0:
+            new_order.save()
+            for item in cart_obj.cartitem_set.all():
+                item.order_id = new_order
+                item.save()
+                return redirect('user_cart_n')
+        else:
+            return redirect('user_cart_n')

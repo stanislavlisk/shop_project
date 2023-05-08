@@ -4,11 +4,7 @@ from PIL import Image, ImageDraw, ImageFilter
 
 
 def password_check(password, username):
-    # has_num = False
-    # has_6_chars = False
-    # has_upper = False
-    # has_lower = False
-    # has_symbol = False
+
     special_chars = "#$%^&*()-+?!_=,<>/"
     s1 = "too short"
     s2 = "username similar to password"

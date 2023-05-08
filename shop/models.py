@@ -11,6 +11,7 @@ from .my_utils import generate_thumbnail
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(default="profile_pics/default.png", upload_to="profile_pics")
+    adress = models.CharField("shipping details", max_length=150, blank=True, null=True)
 
     def __str__(self):
         return f" logged as: {self.user.username}"
@@ -59,7 +60,7 @@ class ItemModel(models.Model):
 
 class Item(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    item_model_id = models.ForeignKey(ItemModel, on_delete=models.CASCADE, null=True, blank=True)
+    item_model_id = models.ForeignKey('ItemModel', on_delete=models.CASCADE, null=True, blank=True)
 
 
     ITEM_STATUS = (
@@ -81,19 +82,24 @@ class Item(models.Model):
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
 
+
     @property
     def cart_total(self):
         items = [item for item in self.cartitem_set.all()]
         return sum([(i.item_model_id.price * i.calculated_quantity) for i in items])
 
-
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    order_comment = models.TextField("Comment", max_length=1000, null=True, blank=True)
 
 
 class CartItem(models.Model):
-    item_model_id = models.ForeignKey(ItemModel, on_delete=models.CASCADE, null=True, blank=True)
-    cart_id = models.ForeignKey(Cart, on_delete=models.CASCADE, null=True, blank=True)
+    item_model_id = models.ForeignKey('ItemModel', on_delete=models.CASCADE, null=True, blank=True)
+    cart_id = models.ForeignKey('Cart', on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField("quantity", default=1)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    order_id = models.ForeignKey('Order', on_delete=models.SET_NULL, null=True, blank=True)
 
 
     @property

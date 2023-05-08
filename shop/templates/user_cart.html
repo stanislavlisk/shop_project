@@ -12,7 +12,8 @@
             {{ cart_item_obj.item_model_id.item_model_name }}
         </div>
         <div class="col">
-            <img src="{{ cart_item_obj.item_model_id.photo.url }}" class="card-img-top" style="max-width: 50px;  height: auto;">
+            <img src="{{ cart_item_obj.item_model_id.photo.url }}" class="card-img-top"
+                 style="max-width: 50px;  height: auto;">
         </div>
         <div class="col">
             {{ cart_item_obj.calculated_price }}
@@ -46,19 +47,28 @@
             <form action="{% url 'remove_item_from_cart_n' %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-outline-dark m-1" name="item_to_delete"
-                        value="{{ cart_item_obj.id }}">Remove</button>
+                        value="{{ cart_item_obj.id }}">Remove
+                </button>
             </form>
         </div>
         {% endfor %}
 
     </div>
     <hr>
-    <div><h5>Total:  {{ user.cart.cart_total }} </h5></div>
+    <div><h5>Total: {{ user.cart.cart_total }} </h5></div>
+    <div class="col">
+        <form action="{% url 'submit_order_by_user_n' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-outline-dark m-1" name="cart_to_submit" value="{{ cart_item_obj.id }}">SUBMIT ORDER
+            </button>
+        </form>
+    </div>
+    <div class="col">
+        {% for order in user.order_set.all %}
+        {{ order.id }}
+        {% endfor %}
+    </div>
 </div>
-
-
-
-
 
 
 {% else %}
