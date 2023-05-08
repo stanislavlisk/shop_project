@@ -13,8 +13,8 @@
 
                 <div class="card-body">
                     <p class="card-text">{{ item_obj.item_model_name }}</p>
-                    <p class="card-text">{{ item_obj.price }}</p>
-                    <p class="card-text"><a href="{% url 'view_item_model_detail_n' item_obj.id %}">view</a></p>
+                    <span class="card-text">{{ item_obj.price }}</span><br>
+                    <span class="card-text"><a href="{% url 'view_item_model_detail_n' item_obj.id %}">view</a></span>
                 </div>
             </div>
         </div>

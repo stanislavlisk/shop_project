@@ -8,7 +8,7 @@
             <img class="rounded-circle p-2 " src="{{ user.userprofile.photo.url }}">
             <p class="m-1">{{ user.username }}</p>
             <p class="m-1">{{ user.email }}</p>
-            <a class="m-1" href="{% url 'logout' %}">logout</a>
+            <a class="m-1" href="{% url 'logout' %}">Sign out</a>
 
             {% for group in user.groups.all %}
                 {{ group }}
