@@ -212,7 +212,12 @@ class ItemModelListView(generic.ListView):
     model = ItemModel
     context_object_name = 'itemmodel_list'
     template_name = 'view_items_models_list.html'
-    paginate_by = 10
+    paginate_by = 6
+
+    def get_queryset(self):
+        query = ItemModel.objects.order_by('item_model_name')
+        return query
+
 
 
 class ItemModelDetailView(generic.DetailView):
@@ -245,7 +250,11 @@ class ItemView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
     model = Item
     context_object_name = 'item_list'
     template_name = 'view_items_list.html'
-    paginate_by = 50
+    paginate_by = 5
+
+    def get_queryset(self):
+        query = Item.objects.order_by('item_model_id')
+        return query
 
     def test_func(self):
         user_groups_list = [group.name for group in self.request.user.groups.all()]
