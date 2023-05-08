@@ -30,6 +30,12 @@ class ItemCreateForm(forms.ModelForm):
         fields = ['item_model_id', 'status']
         widgets = {'form_user': forms.HiddenInput(),}
 
+# class ItemDeleteForm(forms.ModelForm):
+#     class Meta:
+#         model = Item
+#         fields = ['item_model_id', 'status']
+#         widgets = {'form_user': forms.HiddenInput(),}
+
 
 
 class UserProfileUpdateForm(forms.ModelForm):

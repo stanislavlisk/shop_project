@@ -45,7 +45,7 @@ class ItemModel(models.Model):
 
     @property
     def items_left(self):
-        available_items = len(self.item_set.all())
+        available_items = len(self.item_set.filter(status='a'))
         return available_items
 
 

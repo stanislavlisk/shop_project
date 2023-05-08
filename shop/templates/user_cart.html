@@ -46,8 +46,7 @@
             <form action="{% url 'remove_item_from_cart_n' %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-outline-dark m-1" name="item_to_delete"
-                        value="{{ cart_item_obj.id }}">DELETE
-                </button>
+                        value="{{ cart_item_obj.id }}">Remove</button>
             </form>
         </div>
         {% endfor %}
