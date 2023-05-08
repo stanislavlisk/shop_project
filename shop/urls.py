@@ -21,6 +21,7 @@ urlpatterns = [
     path("administrator/<uuid:pk>/delete_item", views.ItemDeleteView.as_view(), name='delete_item_n'),
     path("administrator/view_items", views.ItemView.as_view(), name='view_items_list_n'),
     path("administrator/view_orders", views.AdministratorOrderListView.as_view(), name='view_order_list_n'),
+    path("administrator/view_orders/<int:pk>", views.AdministratorOrderDetailView.as_view(), name='view_order_detail_n'),
     ##
     path("cart/", views.user_cart_view, name='user_cart_n'),
     path("add_to_cart/", views.add_item_to_cart, name='add_item_to_cart_n'),

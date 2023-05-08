@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserProfile, ItemCategory, ItemModel, Item, Cart, CartItem
+from .models import UserProfile, ItemCategory, ItemModel, Item, Cart, CartItem, Order
 
 
 
@@ -32,3 +32,4 @@ admin.site.register(ItemModel, ItemModelAdmin)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Cart, CartAdmin)
 admin.site.register(CartItem, CartItemAdmin)
+admin.site.register(Order)

@@ -94,6 +94,8 @@ class Order(models.Model):
     order_comment = models.TextField("Comment", max_length=1000, null=True, blank=True)
 
 
+
+
 class CartItem(models.Model):
     item_model_id = models.ForeignKey('ItemModel', on_delete=models.CASCADE, null=True, blank=True)
     cart_id = models.ForeignKey('Cart', on_delete=models.SET_NULL, null=True, blank=True)

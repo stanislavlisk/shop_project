@@ -3,8 +3,11 @@
 {% if user.is_authenticated %}
 
 <div class="container mt-5">
-    <div class="row row-cols-2">
+    <div class="row row-cols-3">
 
+        <div class="col">
+            <h4>USER</h4>
+        </div>
         <div class="col">
             <h4>ID</h4>
         </div>
@@ -14,7 +17,10 @@
 
         {% for order_obj in order_list %}
         <div class="col">
-            {{ order_obj.id }}
+            {{ order_obj.user }}
+        </div>
+        <div class="col">
+            <a href="{% url 'view_order_detail_n' order_obj.id %}">{{ order_obj.id }}view</a>
         </div>
         <div class="col">
             date: {{ order_obj.date_created }}

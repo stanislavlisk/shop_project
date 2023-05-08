@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+{% if user.is_authenticated %}
+<div class="container mt-5">
+    <div class="row row-cols-3">
+        <div class="col">
+            <h4>{{ order.date_created }}</h4>
+        </div>
+        <div class="col">
+            {% for cartitem_obj in order.cartitem_set.all %}
+
+            <p>{{ cartitem_obj.item_model_id.item_model_name }}</p>
+
+            {% endfor %}
+        </div>
+
+
+    </div>
+</div>
+{% endif %}
+{% endblock %}

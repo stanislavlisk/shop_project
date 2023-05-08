@@ -282,9 +282,7 @@ class ItemView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
         else:
             return False
 
-################################# cia laikinas skirtukas ##########################################
-###################################################################################################
-###################################################################################################
+
 class AdministratorOrderListView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
     model = Order
     context_object_name = 'order_list'
@@ -302,17 +300,33 @@ class AdministratorOrderListView(LoginRequiredMixin, UserPassesTestMixin, generi
         else:
             return False
 
+################################# cia laikinas skirtukas ##########################################
 
+class AdministratorOrderDetailView(LoginRequiredMixin, UserPassesTestMixin, generic.DetailView):
+    model = Order
+    context_object_name = 'order'
+    template_name = 'view_order_detail.html'
+
+
+    def get_queryset(self):
+        query = Order.objects.order_by('date_created')
+        return query
+
+    def test_func(self):
+        user_groups_list = [group.name for group in self.request.user.groups.all()]
+        if admin_group_name in user_groups_list:
+            return True
+        else:
+            return False
 
 
 class UserOrderListView(LoginRequiredMixin, generic.ListView):
     model = Order
     context_object_name = 'order_list'
     template_name = 'view_user_order_list.html'
-    #paginate_by = 5
 
     def get_queryset(self):
-        query = Order.objects.order_by('date_created')
+        query = Order.objects.filter(user=self.request.user).order_by('date_created')
         return query
 
 
@@ -405,6 +419,6 @@ def submit_order_by_user(request):
             for item in cart_obj.cartitem_set.all():
                 item.order_id = new_order
                 item.save()
-                return redirect('user_cart_n')
+            return redirect('user_cart_n')
         else:
             return redirect('user_cart_n')
