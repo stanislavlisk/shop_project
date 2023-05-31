@@ -4,24 +4,20 @@
 {% if user.is_authenticated %}
 
 <div class="container mt-5">
-    <div class="row row-cols-2">
 
-        <div class="col">
-            <h4>ID</h4>
-        </div>
-        <div class="col">
-            <h4>Date created</h4>
-        </div>
 
-        {% for order_obj in order_list %}
-        <div class="col">
-            {{ order_obj.id }}
-        </div>
-        <div class="col">
-            date: {{ order_obj.date_created }}
-        </div>
-        {% endfor %}
-    </div>
+    {% for order_obj in order_list %}
+    ID: {{ order_obj.id }}<br>
+    DATA: {{ order_obj.date_created }}
+    ITEMS:<br>
+    {% for cartitem in order_obj.cartitem_set.all %}
+    {{ cartitem.item_model_id.item_model_name }}<br>
+    {% endfor %} <br>
+    <hr>
+
+
+    {% endfor %}
+
 </div>
 
 {% endif %}
